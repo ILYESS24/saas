@@ -3,10 +3,8 @@
 import { ArrowRightIcon } from "lucide-react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Geometry, Base, Subtraction} from '@react-three/csg'
-// @ts-ignore
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { Bloom, N8AO, SMAA, EffectComposer } from '@react-three/postprocessing'
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Mesh } from "three";
 import { KernelSize } from "postprocessing";
 
@@ -16,6 +14,13 @@ import Container from "@/components/global/container";
 function Shape() {
   const meshRef = useRef<Mesh>(null);
   const innerSphereRef = useRef<Mesh>(null);
+  const [RoundedBoxGeometry, setRoundedBoxGeometry] = useState<any>(null);
+
+  useEffect(() => {
+    import("three/examples/jsm/geometries/RoundedBoxGeometry.js").then((module) => {
+      setRoundedBoxGeometry(() => module.RoundedBoxGeometry);
+    });
+  }, []);
 
   useFrame((_, delta) => {
     if (meshRef.current) {
@@ -29,6 +34,10 @@ function Shape() {
       innerSphereRef.current.rotation.z += delta * 0.1;
     }
   });
+
+  if (!RoundedBoxGeometry) {
+    return null;
+  }
 
   return (
     <>
@@ -102,10 +111,38 @@ function Environment() {
 }
 
 function CubeScene() {
+  const [mounted, setMounted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-black rounded-lg">
+        <div className="text-white/50">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-black rounded-lg">
+        <div className="text-white/50">Error loading 3D scene</div>
+      </div>
+    );
+  }
+
   return (
     <Canvas
       className="w-full h-full"
       camera={{ position: [5, 5, 5], fov: 50 }}
+      gl={{ antialias: true }}
+      onError={(error) => {
+        console.error('Canvas error:', error);
+        setError('Failed to render 3D scene');
+      }}
     >
       <Environment />
       <Shape />
