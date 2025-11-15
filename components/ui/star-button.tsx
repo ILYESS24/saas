@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect, ReactNode, CSSProperties } from "react";
-import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 interface StarBackgroundProps {
@@ -39,7 +38,7 @@ function StarBackground({ color }: StarBackgroundProps) {
   );
 }
 
-interface StarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface StarButtonProps {
   children: ReactNode;
   lightWidth?: number;
   duration?: number;
@@ -47,7 +46,6 @@ interface StarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   backgroundColor?: string;
   borderWidth?: number;
   className?: string;
-  asChild?: boolean;
 }
 
 export function StarButton({
@@ -58,44 +56,45 @@ export function StarButton({
   backgroundColor = "currentColor",
   borderWidth = 2,
   className,
-  asChild = false,
   ...props
 }: StarButtonProps) {
   const pathRef = useRef<HTMLButtonElement>(null);
-  const Comp = asChild ? Slot : "button";
 
   useEffect(() => {
-    const updatePath = () => {
-      const element = pathRef.current;
-      if (element) {
-        const width = element.offsetWidth || 100;
-        const height = element.offsetHeight || 40;
-        const borderRadius = 24; // rounded-3xl = 24px
-        // Path qui suit le contour de la bordure avec coins arrondis
-        const path = `M ${borderRadius} 0 H ${width - borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${width} ${borderRadius} V ${height - borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${width - borderRadius} ${height} H ${borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 0 ${height - borderRadius} V ${borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${borderRadius} 0 Z`;
-        element.style.setProperty("--path", `path('${path}')`);
-      }
-    };
-    
-    updatePath();
-    window.addEventListener('resize', updatePath);
-    return () => window.removeEventListener('resize', updatePath);
+    if (pathRef.current) {
+      const div = pathRef.current;
+      div.style.setProperty(
+        "--path",
+        `path('M 0 0 H ${div.offsetWidth} V ${div.offsetHeight} H 0 V 0')`,
+      );
+    }
   }, []);
 
-  const buttonContent = (
-    <>
-      {/* Trait lumineux animé sur la bordure */}
+  return (
+    <button
+      style={
+        {
+          "--duration": duration,
+          "--light-width": `${lightWidth}px`,
+          "--light-color": lightColor,
+          "--border-width": `${borderWidth}px`,
+          isolation: "isolate",
+        } as CSSProperties
+      }
+      ref={pathRef}
+      className={cn(
+        "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
+        className,
+      )}
+      {...props}
+    >
       <div
-        className="absolute animate-star-btn pointer-events-none z-[5]"
+        className="absolute aspect-square inset-0 animate-star-btn bg-[radial-gradient(ellipse_at_center,var(--light-color),transparent,transparent)]"
         style={
           {
             offsetPath: "var(--path)",
             offsetDistance: "0%",
-            width: "2px",
-            height: "20px",
-            background: `linear-gradient(to bottom, transparent, var(--light-color), transparent)`,
-            boxShadow: `0 0 8px var(--light-color), 0 0 12px var(--light-color)`,
-            transform: "translate(-50%, -50%)",
+            width: "var(--light-width)",
           } as CSSProperties
         }
       />
@@ -109,56 +108,6 @@ export function StarButton({
       <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
         {children}
       </span>
-    </>
-  );
-
-  if (asChild && React.isValidElement(children)) {
-    const child = children as React.ReactElement;
-    const childContent = child.props?.children || children;
-    return React.cloneElement(child, {
-      ...props,
-      style: {
-        ...(child.props?.style || {}),
-        "--duration": duration,
-        "--light-width": `${lightWidth}px`,
-        "--light-color": lightColor,
-        "--border-width": `${borderWidth}px`,
-        isolation: "isolate",
-      } as CSSProperties,
-        className: cn(
-          "relative z-[3] overflow-visible h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
-          className,
-          child.props?.className,
-        ),
-      ref: pathRef,
-      children: (
-        <>
-          {buttonContent}
-          {childContent}
-        </>
-      ),
-    });
-  }
-
-  return (
-    <Comp
-      style={
-        {
-          "--duration": duration,
-          "--light-width": `${lightWidth}px`,
-          "--light-color": lightColor,
-          "--border-width": `${borderWidth}px`,
-          isolation: "isolate",
-        } as CSSProperties
-      }
-      ref={pathRef}
-      className={cn(
-        "relative z-[3] overflow-visible h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
-        className,
-      )}
-      {...props}
-    >
-      {buttonContent}
-    </Comp>
+    </button>
   );
 }
