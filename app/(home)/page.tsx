@@ -1,4 +1,5 @@
 import { Spotlight } from '@/components/ui/spotlight';
+import { Canvas } from '@/components/ui/canvas';
 import Background from '@/components/global/background';
 import Container from '@/components/global/container';
 import Wrapper from '@/components/global/wrapper';
@@ -14,6 +15,7 @@ import CTA from '@/components/module/cta';
 const HomePage = () => {
     return (
         <Background>
+            <Canvas />
             <Wrapper className="py-20 relative">
                 <Container className="relative">
                     <Spotlight
