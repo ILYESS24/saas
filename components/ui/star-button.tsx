@@ -17,6 +17,7 @@ function StarBackground({ color }: StarBackgroundProps) {
       viewBox="0 0 100 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      style={{ backgroundColor: "#000000" }}
     >
       <g clipPath="url(#clip0_408_119)">
         <path
@@ -86,6 +87,7 @@ export function StarButton({
         "--light-color": lightColor,
         "--border-width": `${borderWidth}px`,
         isolation: "isolate",
+        backgroundColor: "#000000",
       } as CSSProperties,
       className: cn(
         "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button bg-black",
@@ -106,8 +108,8 @@ export function StarButton({
             }
           />
           <div
-            className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] bg-black"
-            style={{ borderWidth: "var(--border-width)" }}
+            className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit]"
+            style={{ borderWidth: "var(--border-width)", backgroundColor: "#000000" }}
             aria-hidden="true"
           >
             <StarBackground color={backgroundColor} />
@@ -133,8 +135,8 @@ export function StarButton({
         }
       />
       <div
-        className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] bg-black"
-        style={{ borderWidth: "var(--border-width)" }}
+        className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit]"
+        style={{ borderWidth: "var(--border-width)", backgroundColor: "#000000" }}
         aria-hidden="true"
       >
         <StarBackground color={backgroundColor} />
@@ -154,6 +156,7 @@ export function StarButton({
           "--light-color": lightColor,
           "--border-width": `${borderWidth}px`,
           isolation: "isolate",
+          backgroundColor: "#000000",
         } as CSSProperties
       }
       ref={pathRef as any}
