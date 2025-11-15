@@ -106,7 +106,7 @@ export function StarButton({
             }
           />
           <div
-            className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] dark:text-black text-white"
+            className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] bg-black"
             style={{ borderWidth: "var(--border-width)" }}
             aria-hidden="true"
           >
@@ -133,7 +133,7 @@ export function StarButton({
         }
       />
       <div
-        className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] dark:text-black text-white"
+        className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] bg-black"
         style={{ borderWidth: "var(--border-width)" }}
         aria-hidden="true"
       >
