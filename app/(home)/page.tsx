@@ -10,6 +10,7 @@ import Features from '@/components/module/features';
 import Perks from '@/components/module/perks';
 import Pricing from '@/components/module/pricing';
 import Reviews from '@/components/module/reviews';
+import PromptSection from '@/components/module/prompt-section';
 import CTA from '@/components/module/cta';
 
 const HomePage = () => {
@@ -30,6 +31,7 @@ const HomePage = () => {
                 <Connect />
                 <Features />
                 <Perks />
+                <PromptSection />
                 <Pricing />
                 <Reviews />
                 <CTA />
