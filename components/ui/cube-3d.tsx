@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, Suspense, useEffect, useState } from "react";
+import { useRef, Suspense, useEffect, useState, useMemo } from "react";
 import { Mesh } from "three";
 import * as THREE from "three";
 
@@ -9,8 +9,8 @@ function Shape() {
   const meshRef = useRef<Mesh>(null);
   const innerSphereRef = useRef<Mesh>(null);
 
-  // Utiliser BoxGeometry directement pour éviter les problèmes d'import dynamique
-  const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
+  // Utiliser useMemo pour créer la géométrie une seule fois
+  const boxGeometry = useMemo(() => new THREE.BoxGeometry(2, 2, 2), []);
 
   useFrame((_, delta) => {
     if (meshRef.current) {
@@ -97,6 +97,7 @@ function CubeSceneContent() {
 
 export function Cube3D() {
   const [mounted, setMounted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -106,6 +107,14 @@ export function Cube3D() {
     return (
       <div className="w-full h-full flex items-center justify-center bg-black rounded-lg">
         <div className="text-white/50">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-black rounded-lg">
+        <div className="text-white/50">Error: {error}</div>
       </div>
     );
   }
