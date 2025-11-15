@@ -1,10 +1,8 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Bloom, N8AO, SMAA, EffectComposer } from '@react-three/postprocessing';
 import { useRef, useState, Suspense, useEffect } from "react";
 import { Mesh } from "three";
-import { KernelSize } from "postprocessing";
 import * as THREE from "three";
 
 function Shape() {
@@ -114,22 +112,6 @@ function CubeSceneContent() {
       <Suspense fallback={null}>
         <Shape />
       </Suspense>
-      <EffectComposer multisampling={0}>
-        <N8AO halfRes color="black" aoRadius={2} intensity={1} aoSamples={6} denoiseSamples={4} />
-        <Bloom
-          kernelSize={3}
-          luminanceThreshold={0}
-          luminanceSmoothing={0.4}
-          intensity={0.6}
-        />
-        <Bloom
-          kernelSize={KernelSize.HUGE}
-          luminanceThreshold={0}
-          luminanceSmoothing={0}
-          intensity={0.5}
-        />
-        <SMAA />
-      </EffectComposer>
     </>
   );
 }
