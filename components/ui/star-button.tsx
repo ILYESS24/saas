@@ -61,7 +61,7 @@ export function StarButton({
   asChild = false,
   ...props
 }: StarButtonProps) {
-  const pathRef = useRef<HTMLButtonElement>(null);
+  const pathRef = useRef<HTMLElement | HTMLButtonElement>(null);
   const Comp = asChild ? Slot : "button";
 
   useEffect(() => {
@@ -73,6 +73,52 @@ export function StarButton({
       );
     }
   }, []);
+
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement;
+    const childContent = child.props?.children || children;
+    return React.cloneElement(child, {
+      ...props,
+      style: {
+        ...(child.props?.style || {}),
+        "--duration": `${duration}s`,
+        "--light-width": `${lightWidth}px`,
+        "--light-color": lightColor,
+        "--border-width": `${borderWidth}px`,
+        isolation: "isolate",
+      } as CSSProperties,
+      className: cn(
+        "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
+        className,
+        child.props?.className,
+      ),
+      ref: pathRef,
+      children: (
+        <>
+          <div
+            className="absolute aspect-square inset-0 animate-star-btn bg-[radial-gradient(ellipse_at_center,var(--light-color),transparent,transparent)]"
+            style={
+              {
+                offsetPath: "var(--path)",
+                offsetDistance: "0%",
+                width: "var(--light-width)",
+              } as CSSProperties
+            }
+          />
+          <div
+            className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] dark:text-black text-white"
+            style={{ borderWidth: "var(--border-width)" }}
+            aria-hidden="true"
+          >
+            <StarBackground color={backgroundColor} />
+          </div>
+          <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
+            {childContent}
+          </span>
+        </>
+      ),
+    });
+  }
 
   const buttonContent = (
     <>
@@ -99,46 +145,18 @@ export function StarButton({
     </>
   );
 
-  if (asChild && React.isValidElement(children)) {
-    const child = children as React.ReactElement;
-    const childContent = child.props?.children || children;
-    return React.cloneElement(child, {
-      ...props,
-      style: {
-        ...(child.props?.style || {}),
-        "--duration": duration,
-        "--light-width": `${lightWidth}px`,
-        "--light-color": lightColor,
-        "--border-width": `${borderWidth}px`,
-        isolation: "isolate",
-      } as CSSProperties,
-      className: cn(
-        "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
-        className,
-        child.props?.className,
-      ),
-      ref: pathRef,
-      children: (
-        <>
-          {buttonContent}
-          {childContent}
-        </>
-      ),
-    });
-  }
-
   return (
     <Comp
       style={
         {
-          "--duration": duration,
+          "--duration": `${duration}s`,
           "--light-width": `${lightWidth}px`,
           "--light-color": lightColor,
           "--border-width": `${borderWidth}px`,
           isolation: "isolate",
         } as CSSProperties
       }
-      ref={pathRef}
+      ref={pathRef as any}
       className={cn(
         "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
         className,
