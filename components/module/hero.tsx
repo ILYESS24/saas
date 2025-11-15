@@ -1,7 +1,5 @@
-"use client";
-
+import Image from "next/image";
 import { ArrowRightIcon } from "lucide-react";
-import { Cube3D } from "@/components/ui/cube-3d";
 
 import { BlurText } from "@/components/ui/blur-text";
 import Container from "@/components/global/container";
