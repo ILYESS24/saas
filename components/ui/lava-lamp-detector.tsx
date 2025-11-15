@@ -14,37 +14,46 @@ export function LavaLampDetector() {
       const viewportHeight = window.innerHeight;
 
       // Calculate blob positions based on shader logic
-      // The shader rotates points around different axes
-      // We need to simulate the 3D rotation and project to 2D
+      // The shader uses 3D rotations, we project to 2D screen space
+      const angle1 = time / 5.0;
+      const angle2 = -time / 5.0;
+      const angle3 = -time / 4.5;
+      const angle4 = -time / 4.0;
+
+      // Helper function to rotate a 2D point
+      const rotate2D = (x: number, y: number, angle: number) => {
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        return {
+          x: x * cos - y * sin,
+          y: x * sin + y * cos
+        };
+      };
+
       const blobs = [
         {
-          // First sphere: rotated around Z axis, original position (-0.5, 0.0, 0.0)
-          x: Math.cos(time / 5) * -0.5 - Math.sin(time / 5) * 0.0,
-          y: Math.sin(time / 5) * -0.5 + Math.cos(time / 5) * 0.0,
+          // First sphere: p1 rotated around Z axis, at (-0.5, 0.0, 0.0), radius 0.35
+          ...rotate2D(-0.5, 0.0, angle1),
           radius: 0.35
         },
         {
-          // Second sphere: rotated around (1,1,1), original position (0.55, 0.0, 0.0)
-          x: Math.cos(-time / 5) * 0.55,
-          y: Math.sin(-time / 5) * 0.55,
+          // Second sphere: p2 rotated, at (0.55, 0.0, 0.0), radius 0.3
+          ...rotate2D(0.55, 0.0, angle2),
           radius: 0.3
         },
         {
-          // Third sphere: same rotation as second, original position (-0.8, 0.0, 0.0)
-          x: Math.cos(-time / 5) * -0.8,
-          y: Math.sin(-time / 5) * -0.8,
+          // Third sphere: p2 rotated, at (-0.8, 0.0, 0.0), radius 0.2
+          ...rotate2D(-0.8, 0.0, angle2),
           radius: 0.2
         },
         {
-          // Fourth sphere: rotated around (1,1,0), original position (1.0, 0.0, 0.0)
-          x: Math.cos(-time / 4.5) * 1.0,
-          y: Math.sin(-time / 4.5) * 1.0,
+          // Fourth sphere: p3 rotated, at (1.0, 0.0, 0.0), radius 0.15
+          ...rotate2D(1.0, 0.0, angle3),
           radius: 0.15
         },
         {
-          // Fifth sphere: rotated around Y axis, original position (0.45, -0.45, 0.0)
-          x: Math.cos(-time / 4.0) * 0.45,
-          y: -0.45 + Math.sin(-time / 4.0) * 0.45,
+          // Fifth sphere: p4 rotated, at (0.45, -0.45, 0.0), radius 0.15
+          ...rotate2D(0.45, -0.45, angle4),
           radius: 0.15
         },
       ];
