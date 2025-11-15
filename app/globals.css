@@ -52,6 +52,9 @@
     --ring: 262 83% 58%;
     --radius: 0.5rem;
   }
+  .theme {
+    --animate-star-btn: star-btn calc(var(--duration)*1s) linear infinite;
+  }
 }
 
 @layer base {
@@ -298,4 +301,24 @@ img {
 
 .gradient {
   background: conic-gradient(from 230.29deg at 51.63% 52.16%, rgb(36, 0, 255) 0deg, rgb(0, 135, 255) 67.5deg, rgb(108, 39, 157) 198.75deg, rgb(24, 38, 163) 251.25deg, rgb(54, 103, 196) 301.88deg, rgb(105, 30, 255) 360deg);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@theme inline {
+  @keyframes star-btn {
+  0% {
+    offset-distance: 0%;
+    }
+  100% {
+    offset-distance: 100%;
+    }
+  }
 }
