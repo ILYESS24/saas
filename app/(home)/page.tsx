@@ -1,10 +1,10 @@
-import dynamic from 'next/dynamic';
 import { Spotlight } from '@/components/ui/spotlight';
 import { Canvas } from '@/components/ui/canvas';
 import Background from '@/components/global/background';
 import Container from '@/components/global/container';
 import Wrapper from '@/components/global/wrapper';
 import Companies from '@/components/module/companies';
+import Hero from '@/components/module/hero';
 import Connect from '@/components/module/connect';
 import Features from '@/components/module/features';
 import Perks from '@/components/module/perks';
@@ -13,10 +13,6 @@ import Pricing from '@/components/module/pricing';
 import Reviews from '@/components/module/reviews';
 import PromptSection from '@/components/module/prompt-section';
 import CTA from '@/components/module/cta';
-
-const Hero = dynamic(() => import('@/components/module/hero'), {
-  ssr: false,
-});
 
 const HomePage = () => {
     return (
