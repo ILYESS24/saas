@@ -1,7 +1,7 @@
 "use client";
 
 // @ts-ignore
-function n(e) {
+function n(e: any) {
   // @ts-ignore
   this.init(e || {});
 }
@@ -31,7 +31,7 @@ n.prototype = {
 };
 
 // @ts-ignore
-function Line(e) {
+function Line(e: any) {
   // @ts-ignore
   this.init(e || {});
 }
@@ -46,6 +46,7 @@ Line.prototype = {
     // @ts-ignore
     this.nodes = [];
     for (var t, n = 0; n < E.size; n++) {
+      // @ts-ignore
       t = new Node();
       // @ts-ignore
       t.x = pos.x;
@@ -119,10 +120,11 @@ Line.prototype = {
 };
 
 // @ts-ignore
-function onMousemove(e) {
+function onMousemove(e: any) {
   function o() {
     lines = [];
     for (let e = 0; e < E.trails; e++)
+      // @ts-ignore
       lines.push(new Line({ spring: 0.45 + (e / E.trails) * 0.025 }));
   }
   // @ts-ignore
@@ -182,14 +184,16 @@ function resizeCanvas() {
 }
 
 // @ts-ignore
-var ctx,
+var ctx: any,
   // @ts-ignore
-  f,
+  f: any,
   e = 0,
-  pos = {},
   // @ts-ignore
-  lines = [],
-  E = {
+  pos: any = {},
+  // @ts-ignore
+  lines: any[] = [],
+  // @ts-ignore
+  E: any = {
     debug: true,
     friction: 0.5,
     trails: 80,
@@ -197,10 +201,15 @@ var ctx,
     dampening: 0.025,
     tension: 0.99,
   };
+// @ts-ignore
 function Node() {
+  // @ts-ignore
   this.x = 0;
+  // @ts-ignore
   this.y = 0;
+  // @ts-ignore
   this.vy = 0;
+  // @ts-ignore
   this.vx = 0;
 }
 
@@ -209,6 +218,7 @@ export const renderCanvas = function () {
   ctx = document.getElementById("canvas").getContext("2d");
   ctx.running = true;
   ctx.frame = 1;
+  // @ts-ignore
   f = new n({
     phase: Math.random() * 2 * Math.PI,
     amplitude: 85,
