@@ -1,26 +1,34 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Geometry, Base, Subtraction } from '@react-three/csg';
 import { Bloom, N8AO, SMAA, EffectComposer } from '@react-three/postprocessing';
-import { useRef, useEffect, useState, Suspense } from "react";
+import { useRef, useState, Suspense, useEffect } from "react";
 import { Mesh } from "three";
 import { KernelSize } from "postprocessing";
+import * as THREE from "three";
 
 function Shape() {
   const meshRef = useRef<Mesh>(null);
   const innerSphereRef = useRef<Mesh>(null);
-  const [RoundedBoxGeometry, setRoundedBoxGeometry] = useState<any>(null);
+  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
 
   useEffect(() => {
-    // Charger RoundedBoxGeometry de manière asynchrone
-    import("three/examples/jsm/geometries/RoundedBoxGeometry.js")
-      .then((module) => {
-        setRoundedBoxGeometry(() => module.RoundedBoxGeometry);
-      })
-      .catch((err) => {
-        console.error('Failed to load RoundedBoxGeometry:', err);
-      });
+    // Créer la géométrie du cube avec des bords arrondis
+    const loadGeometry = async () => {
+      try {
+        const module = await import("three/examples/jsm/geometries/RoundedBoxGeometry.js");
+        const RoundedBoxGeometry = module.RoundedBoxGeometry;
+        const boxGeo = new RoundedBoxGeometry(2, 2, 2, 7, 0.2);
+        setGeometry(boxGeo);
+      } catch (err) {
+        console.error('Failed to load RoundedBoxGeometry, using BoxGeometry:', err);
+        // Fallback vers BoxGeometry si RoundedBoxGeometry ne charge pas
+        const boxGeo = new THREE.BoxGeometry(2, 2, 2);
+        setGeometry(boxGeo);
+      }
+    };
+    
+    loadGeometry();
   }, []);
 
   useFrame((_, delta) => {
@@ -36,46 +44,32 @@ function Shape() {
     }
   });
 
-  if (!RoundedBoxGeometry) {
+  if (!geometry) {
     return null;
   }
 
-  try {
-    return (
-      <>
-        <mesh ref={meshRef}>
-          <meshPhysicalMaterial 
-            roughness={0}
-            metalness={0.95}
-            clearcoat={1}
-            clearcoatRoughness={0.1}
-            color="#000000"
-          />
-          <Geometry>
-            <Base>
-              <primitive
-                object={new RoundedBoxGeometry(2, 2, 2, 7, 0.2)}
-              />
-            </Base>
-            <Subtraction>
-              <sphereGeometry args={[1.25, 64, 64]} />
-            </Subtraction>
-          </Geometry>
-        </mesh>
-        <mesh ref={innerSphereRef}>
-          <sphereGeometry args={[0.8, 32, 32]} />
-          <meshPhysicalMaterial 
-            color="#ffffff"
-            emissive={"white"}
-            emissiveIntensity={1}
-          />
-        </mesh>
-      </>
-    );
-  } catch (error) {
-    console.error('Error rendering Shape:', error);
-    return null;
-  }
+  return (
+    <>
+      <mesh ref={meshRef} geometry={geometry}>
+        <meshPhysicalMaterial 
+          roughness={0}
+          metalness={0.95}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          color="#000000"
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <mesh ref={innerSphereRef}>
+        <sphereGeometry args={[0.8, 32, 32]} />
+        <meshPhysicalMaterial 
+          color="#ffffff"
+          emissive={"white"}
+          emissiveIntensity={1}
+        />
+      </mesh>
+    </>
+  );
 }
 
 function Environment() {
