@@ -71,9 +71,11 @@ export const StarButton = React.forwardRef<HTMLButtonElement, StarButtonProps>(
         if (element) {
           const width = element.offsetWidth || 100;
           const height = element.offsetHeight || 40;
+          const borderRadius = 24; // rounded-3xl = 24px
+          // Path qui suit le contour de la bordure (arrondi)
           element.style.setProperty(
             "--path",
-            `path('M 0 0 H ${width} V ${height} H 0 V 0')`,
+            `path('M ${borderRadius} 0 H ${width - borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${width} ${borderRadius} V ${height - borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${width - borderRadius} ${height} H ${borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 0 ${height - borderRadius} V ${borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${borderRadius} 0 Z')`,
           );
         }
       };
@@ -85,27 +87,37 @@ export const StarButton = React.forwardRef<HTMLButtonElement, StarButtonProps>(
 
     const getButtonContent = (content: ReactNode) => (
       <>
+        {/* Animation de lumière sur la bordure */}
         <div
-          className="absolute aspect-square inset-0 animate-star-btn bg-[radial-gradient(ellipse_at_center,var(--light-color),transparent,transparent)] pointer-events-none"
+          className="absolute animate-star-btn pointer-events-none z-[5]"
           style={
             {
               offsetPath: "var(--path)",
               offsetDistance: "0%",
               width: "var(--light-width)",
+              height: "var(--light-width)",
+              background: "radial-gradient(ellipse at center, var(--light-color), transparent 70%)",
+              borderRadius: "50%",
             } as CSSProperties
           }
         />
+        {/* Fond noir avec étoiles */}
         <div
-          className="absolute inset-0 border z-[4] overflow-hidden rounded-[inherit]"
-          style={{ 
-            borderWidth: "var(--border-width)",
-            borderColor: "rgba(255, 255, 255, 0.15)",
-            backgroundColor: "transparent"
-          }}
+          className="absolute inset-0 z-[2] overflow-hidden rounded-[inherit] bg-black"
           aria-hidden="true"
         >
           <StarBackground color="white" />
         </div>
+        {/* Bordure */}
+        <div
+          className="absolute inset-0 border z-[4] rounded-[inherit] pointer-events-none"
+          style={{ 
+            borderWidth: "var(--border-width)",
+            borderColor: "rgba(255, 255, 255, 0.15)",
+          }}
+          aria-hidden="true"
+        />
+        {/* Texte */}
         <span className="z-10 relative bg-gradient-to-t from-white to-neutral-400 inline-block text-transparent bg-clip-text">
           {content}
         </span>
@@ -126,7 +138,7 @@ export const StarButton = React.forwardRef<HTMLButtonElement, StarButtonProps>(
           isolation: "isolate",
         } as CSSProperties,
         className: cn(
-          "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button bg-black/50 backdrop-blur-sm",
+          "relative z-[3] overflow-visible h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button bg-black",
           className,
           child.props?.className,
         ),
@@ -148,7 +160,7 @@ export const StarButton = React.forwardRef<HTMLButtonElement, StarButtonProps>(
         }
         ref={ref}
         className={cn(
-          "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button bg-black/50 backdrop-blur-sm",
+          "relative z-[3] overflow-visible h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button bg-black",
           className,
         )}
         {...props}
