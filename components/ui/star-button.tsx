@@ -65,24 +65,37 @@ export function StarButton({
   const Comp = asChild ? Slot : "button";
 
   useEffect(() => {
-    if (pathRef.current) {
-      const div = pathRef.current;
-      div.style.setProperty(
-        "--path",
-        `path('M 0 0 H ${div.offsetWidth} V ${div.offsetHeight} H 0 V 0')`,
-      );
-    }
+    const updatePath = () => {
+      const element = pathRef.current;
+      if (element) {
+        const width = element.offsetWidth || 100;
+        const height = element.offsetHeight || 40;
+        const borderRadius = 24; // rounded-3xl = 24px
+        // Path qui suit le contour de la bordure avec coins arrondis
+        const path = `M ${borderRadius} 0 H ${width - borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${width} ${borderRadius} V ${height - borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${width - borderRadius} ${height} H ${borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 0 ${height - borderRadius} V ${borderRadius} A ${borderRadius} ${borderRadius} 0 0 1 ${borderRadius} 0 Z`;
+        element.style.setProperty("--path", `path('${path}')`);
+      }
+    };
+    
+    updatePath();
+    window.addEventListener('resize', updatePath);
+    return () => window.removeEventListener('resize', updatePath);
   }, []);
 
   const buttonContent = (
     <>
+      {/* Trait lumineux animé sur la bordure */}
       <div
-        className="absolute aspect-square inset-0 animate-star-btn bg-[radial-gradient(ellipse_at_center,var(--light-color),transparent,transparent)]"
+        className="absolute animate-star-btn pointer-events-none z-[5]"
         style={
           {
             offsetPath: "var(--path)",
             offsetDistance: "0%",
-            width: "var(--light-width)",
+            width: "2px",
+            height: "20px",
+            background: `linear-gradient(to bottom, transparent, var(--light-color), transparent)`,
+            boxShadow: `0 0 8px var(--light-color), 0 0 12px var(--light-color)`,
+            transform: "translate(-50%, -50%)",
           } as CSSProperties
         }
       />
@@ -112,11 +125,11 @@ export function StarButton({
         "--border-width": `${borderWidth}px`,
         isolation: "isolate",
       } as CSSProperties,
-      className: cn(
-        "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
-        className,
-        child.props?.className,
-      ),
+        className: cn(
+          "relative z-[3] overflow-visible h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
+          className,
+          child.props?.className,
+        ),
       ref: pathRef,
       children: (
         <>
@@ -140,7 +153,7 @@ export function StarButton({
       }
       ref={pathRef}
       className={cn(
-        "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
+        "relative z-[3] overflow-visible h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
         className,
       )}
       {...props}
