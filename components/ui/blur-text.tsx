@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { TextWithCollision } from "./text-with-collision";
 
 interface BlurIntProps {
     word: React.ReactNode | string;
@@ -42,6 +43,7 @@ export const BlurText = ({ word, className, variant, duration = 1 }: BlurIntProp
                 className,
                 "text-center tracking-[-0.02em] drop-shadow-sm",
             )}
+            data-text-collision
         >
             {renderWord()}
         </motion.h1>

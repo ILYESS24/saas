@@ -13,32 +13,46 @@ import Pricing from '@/components/module/pricing';
 import Reviews from '@/components/module/reviews';
 import PromptSection from '@/components/module/prompt-section';
 import CTA from '@/components/module/cta';
+import dynamic from 'next/dynamic';
+import { TextCollisionProvider } from '@/contexts/text-collision-context';
+
+const LavaLampDetector = dynamic(() => import('@/components/ui/lava-lamp-detector').then(mod => ({ default: mod.LavaLampDetector })), {
+  ssr: false,
+});
+
+const AutoTextRegister = dynamic(() => import('@/components/ui/auto-text-register').then(mod => ({ default: mod.AutoTextRegister })), {
+  ssr: false,
+});
 
 const HomePage = () => {
     return (
-        <Background>
-            <Canvas />
-            <Wrapper className="py-20 relative">
-                <Container className="relative">
-                    <Spotlight
-                        className="-top-40 left-0 md:left-60 md:-top-20"
-                        fill="rgba(255, 255, 255, 0.5)"
-                    />
-                    <Hero />
-                </Container>
-                <Container className="py-8 lg:py-20">
-                    <Companies />
-                </Container>
-                <Connect />
-                <Features />
-                <Perks />
-                <DisplaySection />
-                <PromptSection />
-                <Pricing />
-                <Reviews />
-                <CTA />
-            </Wrapper>
-        </Background>
+        <TextCollisionProvider>
+            <Background>
+                <LavaLampDetector />
+                <AutoTextRegister />
+                <Canvas />
+                <Wrapper className="py-20 relative">
+                    <Container className="relative">
+                        <Spotlight
+                            className="-top-40 left-0 md:left-60 md:-top-20"
+                            fill="rgba(255, 255, 255, 0.5)"
+                        />
+                        <Hero />
+                    </Container>
+                    <Container className="py-8 lg:py-20">
+                        <Companies />
+                    </Container>
+                    <Connect />
+                    <Features />
+                    <Perks />
+                    <DisplaySection />
+                    <PromptSection />
+                    <Pricing />
+                    <Reviews />
+                    <CTA />
+                </Wrapper>
+            </Background>
+        </TextCollisionProvider>
     )
 }
 
