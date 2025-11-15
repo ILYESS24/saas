@@ -1,33 +1,16 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useState, Suspense, useEffect } from "react";
+import { useRef, Suspense, useEffect, useState } from "react";
 import { Mesh } from "three";
 import * as THREE from "three";
 
 function Shape() {
   const meshRef = useRef<Mesh>(null);
   const innerSphereRef = useRef<Mesh>(null);
-  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
 
-  useEffect(() => {
-    // Créer la géométrie du cube avec des bords arrondis
-    const loadGeometry = async () => {
-      try {
-        const roundedBoxModule = await import("three/examples/jsm/geometries/RoundedBoxGeometry.js");
-        const RoundedBoxGeometry = roundedBoxModule.RoundedBoxGeometry;
-        const boxGeo = new RoundedBoxGeometry(2, 2, 2, 7, 0.2);
-        setGeometry(boxGeo);
-      } catch (err) {
-        console.error('Failed to load RoundedBoxGeometry, using BoxGeometry:', err);
-        // Fallback vers BoxGeometry si RoundedBoxGeometry ne charge pas
-        const boxGeo = new THREE.BoxGeometry(2, 2, 2);
-        setGeometry(boxGeo);
-      }
-    };
-    
-    loadGeometry();
-  }, []);
+  // Utiliser BoxGeometry directement pour éviter les problèmes d'import dynamique
+  const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
 
   useFrame((_, delta) => {
     if (meshRef.current) {
@@ -42,13 +25,9 @@ function Shape() {
     }
   });
 
-  if (!geometry) {
-    return null;
-  }
-
   return (
     <>
-      <mesh ref={meshRef} geometry={geometry}>
+      <mesh ref={meshRef} geometry={boxGeometry}>
         <meshPhysicalMaterial 
           roughness={0}
           metalness={0.95}
