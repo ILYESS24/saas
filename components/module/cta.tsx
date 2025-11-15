@@ -1,8 +1,5 @@
-import Link from "next/link";
-
 import Container from "@/components/global/container";
 import RetroGrid from "@/components/ui/retro-grid";
-import { StarButton } from "@/components/ui/star-button";
 import { Particles } from "@/components/ui/particles";
 
 const CTA = () => {
@@ -19,16 +16,16 @@ const CTA = () => {
                             Ready to get started? Sign up now and start your journey with us. We are here to help you grow.
                         </p>
                         <div className="flex flex-col md:flex-row items-center justify-center w-full gap-6 mt-6">
-                            <StarButton asChild className="w-full md:w-max">
-                                <Link href="">
+                            <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium w-full md:w-max">
+                                <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
                                     Get Started
-                                </Link>
-                            </StarButton>
-                            <StarButton asChild className="w-full md:w-max">
-                                <Link href="">
+                                </span>
+                            </div>
+                            <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium w-full md:w-max">
+                                <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
                                     Learn More
-                                </Link>
-                            </StarButton>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <RetroGrid />

@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { CheckIcon } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PLANS } from "@/constants";
 import { cn } from "@/lib/utils";
-import { StarButton } from "@/components/ui/star-button";
 import { SectionBadge } from "@/components/ui/section-bade";
 import Container from "@/components/global/container";
 import NumberTicker from "@/components/ui/number-ticker";
@@ -169,14 +167,11 @@ const Plan = ({
                     </ul>
                 </div>
                 <div className="p-3 mt- h-auto flex w-full items-center">
-                    <StarButton
-                        asChild
-                        className="w-full hover:scale-100 hover:translate-y-0 shadow-none"
-                    >
-                        <Link href={""}>
+                    <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium w-full">
+                        <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
                             {buttonText}
-                        </Link>
-                    </StarButton>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,17 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowRightIcon } from "lucide-react";
 
 import { BlurText } from "@/components/ui/blur-text";
-import { StarButton } from "@/components/ui/star-button";
 import Container from "@/components/global/container";
 
 const Hero = () => {
     return (
         <div className="flex flex-col items-center text-center w-full max-w-5xl my-24 mx-auto z-40 relative">
             <Container delay={0.0}>
-                <div className="pl-2 pr-1 py-1 rounded-full border border-foreground/10 hover:border-foreground/15 backdrop-blur-lg cursor-pointer flex items-center gap-2.5 select-none w-max mx-auto">
+                <div className="pl-2 pr-1 py-1 rounded-full border border-foreground/10 backdrop-blur-lg flex items-center gap-2.5 select-none w-max mx-auto">
                     <div className="w-3.5 h-3.5 rounded-full bg-primary/40 flex items-center justify-center relative">
                         <div className="w-2.5 h-2.5 rounded-full bg-primary/60 flex items-center justify-center animate-ping">
                             <div className="w-2.5 h-2.5 rounded-full bg-primary/60 flex items-center justify-center animate-ping"></div>
@@ -39,16 +36,16 @@ const Hero = () => {
             </Container>
             <Container delay={0.2}>
                 <div className="flex items-center justify-center md:gap-x-6 mt-8">
-                    <StarButton asChild>
-                        <Link href="/app">
+                    <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium">
+                        <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
                             Start for free
-                        </Link>
-                    </StarButton>
-                    <StarButton asChild className="hidden md:flex">
-                        <Link href="#">
+                        </span>
+                    </div>
+                    <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium hidden md:flex">
+                        <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
                             How it works
-                        </Link>
-                    </StarButton>
+                        </span>
+                    </div>
                 </div>
             </Container>
             <Container delay={0.3}>

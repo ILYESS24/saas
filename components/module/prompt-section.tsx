@@ -8,7 +8,6 @@ import {
   PromptInputActions,
   PromptInputAction,
 } from "@/components/ui/prompt-input";
-import { StarButton } from "@/components/ui/star-button";
 import Container from "@/components/global/container";
 import { SectionBadge } from "@/components/ui/section-bade";
 
@@ -53,17 +52,13 @@ const PromptSection = () => {
           />
           <PromptInputActions>
             <PromptInputAction tooltip="Send message">
-              <StarButton
-                onClick={handleSubmit}
-                disabled={!value.trim() || isLoading}
-                className="h-9 w-9 p-0"
-              >
+              <div className="relative z-[3] overflow-hidden h-9 w-9 p-0 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium">
                 {isLoading ? (
                   <Sparkles className="h-4 w-4 animate-spin" />
                 ) : (
                   <Send className="h-4 w-4" />
                 )}
-              </StarButton>
+              </div>
             </PromptInputAction>
           </PromptInputActions>
         </PromptInput>
