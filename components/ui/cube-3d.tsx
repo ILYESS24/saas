@@ -16,8 +16,8 @@ function Shape() {
     // Créer la géométrie du cube avec des bords arrondis
     const loadGeometry = async () => {
       try {
-        const module = await import("three/examples/jsm/geometries/RoundedBoxGeometry.js");
-        const RoundedBoxGeometry = module.RoundedBoxGeometry;
+        const roundedBoxModule = await import("three/examples/jsm/geometries/RoundedBoxGeometry.js");
+        const RoundedBoxGeometry = roundedBoxModule.RoundedBoxGeometry;
         const boxGeo = new RoundedBoxGeometry(2, 2, 2, 7, 0.2);
         setGeometry(boxGeo);
       } catch (err) {
