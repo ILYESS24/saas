@@ -17,8 +17,8 @@ function StarBackground({ color }: StarBackgroundProps) {
       viewBox="0 0 100 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ backgroundColor: "#000000" }}
     >
+      <rect width="100" height="40" fill="#000000" />
       <g clipPath="url(#clip0_408_119)">
         <path
           d="M32.34 26.68C32.34 26.3152 32.0445 26.02 31.68 26.02C31.3155 26.02 31.02 26.3152 31.02 26.68C31.02 27.0448 31.3155 27.34 31.68 27.34C32.0445 27.34 32.34 27.0448 32.34 26.68Z"
@@ -114,7 +114,7 @@ export function StarButton({
           >
             <StarBackground color={backgroundColor} />
           </div>
-          <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
+          <span className="z-10 relative text-white">
             {childContent}
           </span>
         </>
@@ -141,7 +141,7 @@ export function StarButton({
       >
         <StarBackground color={backgroundColor} />
       </div>
-      <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
+      <span className="z-10 relative text-white">
         {children}
       </span>
     </>
