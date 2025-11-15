@@ -112,7 +112,6 @@ function Environment() {
 
 function CubeScene() {
   const [mounted, setMounted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -126,23 +125,11 @@ function CubeScene() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-black rounded-lg">
-        <div className="text-white/50">Error loading 3D scene</div>
-      </div>
-    );
-  }
-
   return (
     <Canvas
       className="w-full h-full"
       camera={{ position: [5, 5, 5], fov: 50 }}
       gl={{ antialias: true }}
-      onError={(error) => {
-        console.error('Canvas error:', error);
-        setError('Failed to render 3D scene');
-      }}
     >
       <Environment />
       <Shape />
