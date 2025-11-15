@@ -34,20 +34,6 @@ const Hero = () => {
                     Elevate your social media presense with AI-powered content creation and scheduling. <span className="hidden sm:inline">Orbit is the all-in-one solution for your social media marketing needs.</span>
                 </p>
             </Container>
-            <Container delay={0.2}>
-                <div className="flex items-center justify-center md:gap-x-6 mt-8">
-                    <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium">
-                        <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
-                            Start for free
-                        </span>
-                    </div>
-                    <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium hidden md:flex">
-                        <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
-                            How it works
-                        </span>
-                    </div>
-                </div>
-            </Container>
             <Container delay={0.3}>
                 <div className="relative mx-auto max-w-7xl rounded-xl lg:rounded-[32px] border border-neutral-200/50 p-2 backdrop-blur-lg border-neutral-700 bg-neutral-800/50 md:p-4 mt-12">
                     <div className="absolute top-1/4 left-1/2 -z-10 gradient w-3/4 -translate-x-1/2 h-1/4 -translate-y-1/2 inset-0 blur-[10rem]"></div>

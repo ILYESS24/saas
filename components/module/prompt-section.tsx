@@ -1,12 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Sparkles } from "lucide-react";
 import {
   PromptInput,
   PromptInputTextarea,
-  PromptInputActions,
-  PromptInputAction,
 } from "@/components/ui/prompt-input";
 import Container from "@/components/global/container";
 import { SectionBadge } from "@/components/ui/section-bade";
@@ -50,17 +47,6 @@ const PromptSection = () => {
             placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
             disabled={isLoading}
           />
-          <PromptInputActions>
-            <PromptInputAction tooltip="Send message">
-              <div className="relative z-[3] overflow-hidden h-9 w-9 p-0 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium">
-                {isLoading ? (
-                  <Sparkles className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Send className="h-4 w-4" />
-                )}
-              </div>
-            </PromptInputAction>
-          </PromptInputActions>
         </PromptInput>
       </Container>
     </div>

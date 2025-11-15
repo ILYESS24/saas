@@ -15,18 +15,6 @@ const CTA = () => {
                         <p className="text-base md:text-lg text-center text-accent-foreground/80 max-w-xl mx-auto mt-6">
                             Ready to get started? Sign up now and start your journey with us. We are here to help you grow.
                         </p>
-                        <div className="flex flex-col md:flex-row items-center justify-center w-full gap-6 mt-6">
-                            <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium w-full md:w-max">
-                                <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
-                                    Get Started
-                                </span>
-                            </div>
-                            <div className="relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium w-full md:w-max">
-                                <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-block text-transparent bg-clip-text">
-                                    Learn More
-                                </span>
-                            </div>
-                        </div>
                     </div>
                     <RetroGrid />
                     <Particles
