@@ -80,6 +80,8 @@ export function AIInput({
        <button
   onClick={handleReset}
   type="button"
+  aria-label="Submit message"
+  title="Submit message"
   className={cn(
     "absolute top-1/2 -translate-y-1/2 right-3",
     "rounded-xl bg-black/5 dark:bg-white/5 py-1 px-1",
