@@ -42,40 +42,51 @@ export function TextCollisionProvider({ children }: { children: ReactNode }) {
       const newMap = new Map(prev);
       
       newMap.forEach((textEl, id) => {
-        const rect = textEl.element.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        // Calculate distance from blob center to text center
-        const distance = Math.sqrt(
-          Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
-        );
-        
-        // Check if blob intersects with text (considering both blob radius and text size)
-        // Use a more generous collision detection
-        const textRadius = Math.max(rect.width, rect.height) / 2;
-        const collisionRadius = radius + textRadius * 1.2; // Add 20% padding
-        const isIntersecting = distance < collisionRadius;
-        
-        if (isIntersecting !== textEl.isIntersecting) {
-          newMap.set(id, { ...textEl, isIntersecting });
+        try {
+          // Check if element still exists in DOM
+          if (!textEl.element || !document.body.contains(textEl.element)) {
+            newMap.delete(id);
+            return;
+          }
+
+          const rect = textEl.element.getBoundingClientRect();
           
-          // Apply color change with smooth transition
-          if (isIntersecting) {
-            textEl.element.style.color = '#ffffff';
-            textEl.element.style.transition = 'color 0.2s ease';
-            // Also change background if it's a text element with background
-            if (textEl.element.style.background) {
-              textEl.element.style.background = 'rgba(255, 255, 255, 0.1)';
-            }
-          } else {
-            // Restore original color gradually
-            textEl.element.style.color = '';
-            textEl.element.style.transition = 'color 0.4s ease';
-            if (textEl.element.style.background) {
-              textEl.element.style.background = '';
+          // Skip if element is not visible
+          if (rect.width === 0 || rect.height === 0) {
+            return;
+          }
+
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          
+          // Calculate distance from blob center to text center
+          const distance = Math.sqrt(
+            Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
+          );
+          
+          // Check if blob intersects with text (considering both blob radius and text size)
+          // Use a more generous collision detection
+          const textRadius = Math.max(rect.width, rect.height) / 2;
+          const collisionRadius = radius + textRadius * 1.2; // Add 20% padding
+          const isIntersecting = distance < collisionRadius;
+          
+          if (isIntersecting !== textEl.isIntersecting) {
+            newMap.set(id, { ...textEl, isIntersecting });
+            
+            // Apply color change with smooth transition
+            if (isIntersecting) {
+              textEl.element.style.color = '#ffffff';
+              textEl.element.style.transition = 'color 0.2s ease';
+            } else {
+              // Restore original color gradually
+              textEl.element.style.color = '';
+              textEl.element.style.transition = 'color 0.4s ease';
             }
           }
+        } catch (error) {
+          // Remove invalid element
+          console.warn('Error checking collision for element:', id, error);
+          newMap.delete(id);
         }
       });
       

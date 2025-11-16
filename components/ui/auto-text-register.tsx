@@ -21,18 +21,24 @@ export function AutoTextRegister() {
       ];
 
       textSelectors.forEach(selector => {
-        const elements = document.querySelectorAll<HTMLElement>(selector);
-        elements.forEach((el, index) => {
-          // Only register if element has visible text
-          if (el.textContent && el.textContent.trim().length > 0 && el.offsetParent !== null) {
-            const id = `auto-text-${selector}-${index}-${el.textContent.substring(0, 20).replace(/\s/g, '').substring(0, 10)}`;
-            
-            if (!registeredIds.has(id)) {
-              registeredIds.add(id);
-              registerText(id, el);
+        try {
+          const elements = document.querySelectorAll<HTMLElement>(selector);
+          elements.forEach((el, index) => {
+            // Only register if element has visible text and is not already registered
+            if (el && el.textContent && el.textContent.trim().length > 0 && el.offsetParent !== null) {
+              const textHash = el.textContent.substring(0, 20).replace(/\s/g, '').substring(0, 10);
+              const id = `auto-text-${selector.replace(/[^a-zA-Z0-9]/g, '')}-${index}-${textHash}`;
+              
+              if (!registeredIds.has(id) && !el.dataset.collisionRegistered) {
+                registeredIds.add(id);
+                el.dataset.collisionRegistered = 'true';
+                registerText(id, el);
+              }
             }
-          }
-        });
+          });
+        } catch (error) {
+          console.warn('Error registering texts for selector:', selector, error);
+        }
       });
     };
 
