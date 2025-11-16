@@ -54,6 +54,7 @@
   }
   .theme {
     --animate-star-btn: star-btn calc(var(--duration)*1s) linear infinite;
+    --animate-fade-scale: fade-scale 0.2s ease-out;
   }
 }
 
@@ -319,6 +320,16 @@ img {
     }
   100% {
     offset-distance: 100%;
+    }
+  }
+  @keyframes fade-scale {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.95);
+    }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
     }
   }
 }

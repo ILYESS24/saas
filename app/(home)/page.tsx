@@ -9,6 +9,8 @@ import Connect from '@/components/module/connect';
 import Features from '@/components/module/features';
 import Perks from '@/components/module/perks';
 import DisplaySection from '@/components/module/display-section';
+import CpuSection from '@/components/module/cpu-section';
+import AIInputSection from '@/components/module/ai-input-section';
 import Pricing from '@/components/module/pricing';
 import Reviews from '@/components/module/reviews';
 import PromptSection from '@/components/module/prompt-section';
@@ -46,6 +48,8 @@ const HomePage = () => {
                     <Features />
                     <Perks />
                     <DisplaySection />
+                    <CpuSection />
+                    <AIInputSection />
                     <PromptSection />
                     <Pricing />
                     <Reviews />
